@@ -71,7 +71,7 @@ The implementation emphasizes deterministic scheduling, hardware-level control, 
 cd nuttx_ws
 make menuconfig
 
-Enable:
+## Enable:
 
 UART
 GPIO
