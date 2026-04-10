@@ -1,58 +1,34 @@
-# NuttX RTOS on STM32
+# NuttX RTOS on STM32 for Drone Drivers
 
 ![RTOS](https://img.shields.io/badge/RTOS-Apache%20NuttX-blue)
 ![MCU](https://img.shields.io/badge/MCU-STM32-green)
 ![Language](https://img.shields.io/badge/Language-C-orange)
-![Build](https://img.shields.io/badge/Build-Passing-brightgreen)
-
 
 ---
 
 ## Overview
-This project demonstrates running Apache NuttX RTOS on an STM32 microcontroller. It showcases real-time multitasking, hardware abstraction, and peripheral interaction in an embedded system.
+This project demonstrates the use of Apache NuttX RTOS on an STM32 microcontroller, with a focus on building low-level drivers and real-time task execution relevant to drone and robotics systems.
 
-Designed as a hands-on learning project for understanding:
-- Task scheduling  
-- Driver interaction  
-- Real-time system behavior  
+The implementation emphasizes deterministic scheduling, hardware-level control, and modular driver development, which are critical for flight control systems.
 
 ---
 
-## Architecture
-
-
-+---------------------------+
-| User Tasks |
-| (GPIO / UART / Timer) |
-+------------+--------------+
-|
-v
-+---------------------------+
-| NuttX Scheduler |
-| (Priority-based RTOS) |
-+------------+--------------+
-|
-v
-+---------------------------+
-| Device Drivers |
-| (GPIO, UART, Timers) |
-+------------+--------------+
-|
-v
-+---------------------------+
-| STM32 Hardware |
-+---------------------------+
-
+## Objectives
+- Understand real-time scheduling in embedded flight systems  
+- Develop low-level drivers for peripherals used in drones  
+- Implement deterministic, time-critical task execution  
+- Build a foundation for flight controller software  
 
 ---
 
 ## Features
 - Real-time multitasking using NuttX  
-- GPIO control for LEDs and external devices  
-- UART communication for debugging  
-- Timer-based task execution  
-- Multi-threading with priority scheduling  
-- STM32 peripheral integration  
+- Deterministic task scheduling  
+- GPIO driver for status LEDs and signals  
+- UART driver for telemetry and debugging  
+- Timer-based execution for periodic control loops  
+- Multi-threading with priority control  
+- STM32 peripheral interfacing  
 
 ---
 
@@ -68,40 +44,23 @@ v
 
 ---
 
-## Project Structure
+## Driver Modules
 
+### GPIO Driver
+- Controls status LEDs and digital outputs  
+- Can be extended for ESC signaling or interrupts  
 
-.
-├── nuttx/ # NuttX source
-├── apps/ # Application layer
-│ ├── gpio_task.c
-│ ├── uart_task.c
-│ ├── timer_task.c
-│ └── main.c
-├── configs/ # Board configuration
-├── scripts/ # Flashing scripts
-└── README.md
+### UART Driver
+- Used for telemetry and debugging  
+- Suitable for communication with flight controllers or ground stations  
 
-
----
-
-## Modules
-
-### GPIO Task
-- Controls LED blinking  
-- Demonstrates digital output  
-
-### UART Task
-- Sends debug logs  
-- Enables serial communication  
-
-### Timer Task
-- Executes periodic operations  
-- Uses RTOS timers  
+### Timer Module
+- Provides precise periodic execution  
+- Foundation for control loops (PID, sensor polling)  
 
 ### Multi-threading
 - Priority-based scheduling  
-- Concurrent task execution  
+- Ensures time-critical tasks run reliably  
 
 ---
 
@@ -109,7 +68,7 @@ v
 
 ### 1. Configure NuttX
 ```bash
-cd nuttx
+cd nuttx_ws
 make menuconfig
 
 Enable:
@@ -117,22 +76,25 @@ Enable:
 UART
 GPIO
 Timers
+(Optional) PWM for motor control
+
 2. Build Firmware
 make -j$(nproc)
+
 3. Flash Firmware
 Using OpenOCD
 openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
 Using ST-Link
 st-flash write nuttx.bin 0x8000000
+
 4. Serial Output
 screen /dev/ttyUSB0 115200
-Demo (Optional)
-NuttX Booting...
-GPIO Task Running
-UART Initialized
-Timer Tick: 1000ms
+
 Future Work
-Add motor control using PID
-Integrate sensors like IMU or encoders
-Build ROS2 communication interface
-Expand into robotics applications
+PWM driver for motor (ESC) control
+Sensor drivers (IMU, barometer, GPS)
+PID control loop implementation
+Integration with flight stack (PX4 / ROS2)
+Real-time data logging and telemet
+
+
