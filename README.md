@@ -73,25 +73,33 @@ make menuconfig
 
 ```
 Enable:
-
 UART
 GPIO
 Timers
 (Optional) PWM for motor control
 
 2. Build Firmware
+```bash
 make -j$(nproc)
+```
 
 3. Flash Firmware
 Using OpenOCD
+
+```bash
 openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
+```
 Using ST-Link
+```bash
 st-flash write nuttx.bin 0x8000000
+```
 
 4. Serial Output
+```bash
 screen /dev/ttyUSB0 115200
+```
 
-Future Work
+## Future Work
 PWM driver for motor (ESC) control
 Sensor drivers (IMU, barometer, GPS)
 PID control loop implementation
