@@ -4,7 +4,7 @@
 ![MCU](https://img.shields.io/badge/MCU-STM32-green)
 ![Language](https://img.shields.io/badge/Language-C-orange)
 ![Build](https://img.shields.io/badge/Build-Passing-brightgreen)
-![License](https://img.shields.io/badge/License-MIT-lightgrey)
+
 
 ---
 
